@@ -1,0 +1,18 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: ingressroute-landingpage
+  namespace: default
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`{{ .Values.app.name }}.{{ .Values.app.domain }}`) && Path(`/`)
+      kind: Rule
+      priority: 1
+      services:
+        - name: landingpage
+          port: 80
+  tls:
+    certResolver: default

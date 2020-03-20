@@ -1,0 +1,7 @@
+acme:
+  mail: user@example.org
+  production: false
+
+app:
+  name: cloud
+  domain: example.org

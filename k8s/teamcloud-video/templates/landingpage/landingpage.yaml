@@ -1,0 +1,26 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  namespace: default
+  name: landingpage
+  labels:
+    app: landingpage
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: landingpage
+  template:
+    metadata:
+      labels:
+        app: landingpage
+      annotations:
+        timestamp: "{{ now | unixEpoch }}"
+    spec:
+      containers:
+        - name: landingpage
+          image: nginx:alpine
+          imagePullPolicy: Always
+          ports:
+            - name: web
+              containerPort: 80

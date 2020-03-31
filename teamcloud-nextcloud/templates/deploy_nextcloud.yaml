@@ -1,0 +1,57 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  namespace: default
+  name: teamcloud-nextcloud
+  labels:
+    app: teamcloud-nextcloud
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: teamcloud-nextcloud
+  template:
+    metadata:
+      labels:
+        app: teamcloud-nextcloud
+      annotations:
+        timestamp: "{{ now | unixEpoch }}"
+    spec:
+      volumes:
+       - name: nc-data-vol
+         persistentVolumeClaim:
+           claimName: nc-data
+       - name: nc-config-vol
+         persistentVolumeClaim:
+           claimName: nc-config
+       - name: nc-apps-vol
+         persistentVolumeClaim:
+           claimName: nc-apps
+       - name: nc-themes-vol
+         persistentVolumeClaim:
+           claimName: nc-themes
+      containers:
+       - name: web
+         image: nextcloud:stable
+         imagePullPolicy: Always
+         volumeMounts:
+           - name: nc-data-vol
+             mountPath: "/var/www/html"
+           - name: nc-config-vol
+             mountPath: "/var/www/html/config"
+           - name: nc-apps-vol
+             mountPath: "/var/www/html/custom_apps"
+           - name: nc-themes-vol
+             mountPath: "/var/www/html/themes"
+         ports:
+          - name: web
+            containerPort: 80
+         env:
+          - name: MYSQL_HOST
+            value: teamcloud-nextcloud-db
+          - name: MYSQL_DATABASE
+            value: nextcloud
+          - name: MYSQL_USER
+            value: nextcloud
+          - name: MYSQL_PASSWORD
+            value: {{ .Values.database.password }}

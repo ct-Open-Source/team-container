@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: teamcloud-nextcloud
+spec:
+  ports:
+    - protocol: TCP
+      name: web
+      port: 80
+  selector:
+    app: teamcloud-nextcloud
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: teamcloud-nextcloud-db
+spec:
+  ports:
+    - protocol: TCP
+      name: sql
+      port: 3306
+  selector:
+    app: teamcloud-nextcloud-db

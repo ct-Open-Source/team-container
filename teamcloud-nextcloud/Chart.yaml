@@ -1,0 +1,8 @@
+apiVersion: v2
+name: teamcloud-nextcloud
+description: Nextcloud for teamserver
+
+type: application
+
+version: 0.0.1
+appVersion: 0.0.1

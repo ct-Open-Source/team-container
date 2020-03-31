@@ -1,0 +1,53 @@
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  namespace: default
+  name: teamcloud-nextcloud-db
+  labels:
+    app: teamcloud-nextcloud-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: teamcloud-nextcloud-db
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: teamcloud-nextcloud-db
+      annotations:
+        timestamp: "{{ now | unixEpoch }}"
+    spec:
+      volumes:
+       - name: teamcloud-db-vol
+         persistentVolumeClaim:
+           claimName: nc-db-data
+      containers:
+        - name: teamcloud-nextcloud-db
+          image: mariadb
+          imagePullPolicy: Always
+          volumeMounts:
+           - name: teamcloud-db-vol
+             mountPath: "/var/lib/mysql"
+          ports:
+            - containerPort: 3306
+              name: mysql
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: teamcloud-nc-database-secret
+                  key: rootpassword
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: teamcloud-nc-database-secret
+                  key: password
+            - name: MYSQL_DATABASE
+              value: "nextcloud"
+            - name: MYSQL_USER
+              value: "nextcloud"
+            - name: MYSQL_INITDB_SKIP_TZINFO
+              value: "1"

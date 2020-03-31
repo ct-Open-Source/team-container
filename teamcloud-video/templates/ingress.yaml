@@ -2,17 +2,17 @@
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: ingressroute-landingpage
+  name: ingressroute-teamcloud-video
   namespace: default
 spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`{{ .Values.app.name }}.{{ .Values.app.domain }}`) && Path(`/`)
+    - match: Host(`{{ .Values.app.name }}.{{ .Values.app.domain }}`)
       kind: Rule
-      priority: 1
+      priority: 100
       services:
-        - name: landingpage
+        - name: teamcloud-video
           port: 80
   tls:
     certResolver: default

@@ -9,4 +9,4 @@ export HELM_EXPERIMENTAL_OCI=1
 
 echo "KUBECONFIG=/etc/rancher/k3s/k3s.yaml">>/etc/environment
 echo "HELM_EXPERIMENTAL_OCI=1">>/etc/environment
-echo "Kubernetes is ready for teamcloud"
+echo "Kubernetes is ready for teamcloud. Please reboot your machine."

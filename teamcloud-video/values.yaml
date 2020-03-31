@@ -1,0 +1,11 @@
+app:
+  name: video
+  domain: example.org
+
+replicaCount: 1
+
+nameOverride: ""
+fullnameOverride: ""
+
+logging:
+  log_group_name: jitsi-meet

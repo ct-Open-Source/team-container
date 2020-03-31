@@ -1,0 +1,55 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: teamcloud-video
+spec:
+  ports:
+    - protocol: TCP
+      name: web
+      port: 80
+  selector:
+    app: teamcloud-video
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    service: prosody
+  name: prosody
+spec:
+  ports:
+  - name: "5222"
+    port: 5222
+    targetPort: 5222
+  - name: "5280"
+    port: 5280
+    targetPort: 5280
+  - name: "5347"
+    port: 5347
+    targetPort: 5347
+  selector:
+    app: teamcloud-prosody
+status:
+  loadBalancer: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: jitsi
+  name: jvb
+spec:
+  type: NodePort
+  ports:
+  - name: udp
+    port: 30000
+    nodePort: 30000
+    protocol: UDP
+    targetPort: 30000
+  - name: tcp
+    port: 30001
+    nodePort: 30001
+    protocol: TCP
+    targetPort: 30001
+  selector:
+    app: teamcloud-jvb

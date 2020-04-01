@@ -1,0 +1,43 @@
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  namespace: default
+  name: {{ include "teamcloud-chat.name" . }}-mongo
+  labels:
+    app: {{ include "teamcloud-chat.name" . }}-mongo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ include "teamcloud-chat.name" . }}-mongo
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: {{ include "teamcloud-chat.name" . }}-mongo
+      annotations:
+        timestamp: "{{ now | unixEpoch }}"
+    spec:
+      volumes:
+       - name: teamcloud-mongo-vol
+         persistentVolumeClaim:
+           claimName: {{ include "teamcloud-chat.name" . }}-mongo-data
+       - name: teamcloud-mongo-backups-vol
+         persistentVolumeClaim:
+           claimName: {{ include "teamcloud-chat.name" . }}-mongo-backup
+      containers:
+        - name: {{ include "teamcloud-chat.name" . }}-mongo
+          image: mongo:3.2
+          imagePullPolicy: Always
+          command: ["mongod"]
+          args: ["--smallfiles", "--oplogSize 128", "--replSet rs0"]
+          volumeMounts:
+           - name: teamcloud-mongo-vol
+             mountPath: "/data/db"
+           - name: teamcloud-mongo-backups-vol
+             mountPath: "/data/db"
+          ports:
+            - containerPort: 27017
+              name: mongo

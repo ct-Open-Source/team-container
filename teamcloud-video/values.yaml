@@ -2,10 +2,9 @@ app:
   name: video
   domain: example.org
 
+# Nothing to change below this line. Will be removed later.
 replicaCount: 1
-
 nameOverride: ""
 fullnameOverride: ""
-
 logging:
   log_group_name: jitsi-meet

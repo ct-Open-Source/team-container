@@ -1,0 +1,8 @@
+app:
+  name: chat
+  domain: example.org
+## storage limit for files and database
+storage:
+  limits:
+    data: 128Gi
+    database: 128Gi

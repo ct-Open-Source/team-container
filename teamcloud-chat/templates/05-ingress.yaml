@@ -2,7 +2,7 @@
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: ingressroute-{{ include "teamcloud-nextcloud.name" . }}
+  name: ingressroute-{{ include "teamcloud-chat.name" . }}
   namespace: default
 spec:
   entryPoints:
@@ -11,7 +11,7 @@ spec:
     - match: Host(`{{ .Values.app.name }}.{{ .Values.app.domain }}`)
       kind: Rule
       services:
-        - name: {{ include "teamcloud-nextcloud.name" . }}-nc
-          port: 80
+        - name: {{ include "teamcloud-chat.name" . }}-rc
+          port: 3000
   tls:
     certResolver: default

@@ -1,0 +1,49 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  namespace: default
+  name: {{ include "teamcloud-chat.name" . }}-chat
+  labels:
+    app: {{ include "teamcloud-chat.name" . }}-chat
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ include "teamcloud-chat.name" . }}-chat
+  template:
+    metadata:
+      labels:
+        app: {{ include "teamcloud-chat.name" . }}-chat
+      annotations:
+        timestamp: "{{ now | unixEpoch }}"
+    spec:
+      volumes:
+       - name: rc-uploads-vol
+         persistentVolumeClaim:
+           claimName: {{ include "teamcloud-chat.name" . }}-rc-data
+       - name: rc-tmp-vol
+         persistentVolumeClaim:
+           claimName: {{ include "teamcloud-chat.name" . }}-rc-tmp
+      containers:
+       - name: chat
+         image: rocketchat/rocket.chat:latest
+         imagePullPolicy: Always
+         command: ["/bin/sh"]
+         args: ["-c", "'INSTANCE_IP=$$(hostname -i) node main.js'"]
+         volumeMounts:
+           - name: rc-uploads-vol
+             mountPath: "/app/uploads"
+           - name: rc-tmp-vol
+             mountPath: "/tmp"
+         ports:
+          - name: web
+            containerPort: 3000
+         env:
+          - name: ROOT_URL
+            value: https://{{ .Values.app.name }}.{{ .Values.app.domain }}
+          - name: PORT
+            value: 3000
+          - name: MONGO_URL
+            value: mongodb://{{ include "teamcloud-chat.name" . }}-mongo.default.svc.cluster.local:27017/rocketchat
+          - name: MONGO_OPLOG_URL
+            value: mongodb://{{ include "teamcloud-chat.name" . }}-mongo.default.svc.cluster.local:27017/local

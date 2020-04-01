@@ -1,3 +1,26 @@
+# Public service 
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: jitsi
+  name: jvb
+spec:
+  type: NodePort
+  ports:
+  - name: udp
+    port: 30000
+    nodePort: 30000
+    protocol: UDP
+    targetPort: 30000
+  - name: tcp
+    port: 30001
+    nodePort: 30001
+    protocol: TCP
+    targetPort: 30001
+  selector:
+    app: teamcloud-jvb
+---
 apiVersion: v1
 kind: Service
 metadata:
@@ -31,25 +54,3 @@ spec:
     app: teamcloud-prosody
 status:
   loadBalancer: {}
----
-apiVersion: v1
-kind: Service
-metadata:
-  labels:
-    app: jitsi
-  name: jvb
-spec:
-  type: NodePort
-  ports:
-  - name: udp
-    port: 30000
-    nodePort: 30000
-    protocol: UDP
-    targetPort: 30000
-  - name: tcp
-    port: 30001
-    nodePort: 30001
-    protocol: TCP
-    targetPort: 30001
-  selector:
-    app: teamcloud-jvb

@@ -1,6 +1,5 @@
----
-kind: Deployment
-apiVersion: apps/v1
+kind: ReplicationController
+apiVersion: v1
 metadata:
   namespace: default
   name: {{ include "teamcloud-chat.name" . }}-mongo
@@ -9,17 +8,18 @@ metadata:
 spec:
   replicas: 1
   selector:
-    matchLabels:
-      app: {{ include "teamcloud-chat.name" . }}-mongo
-  strategy:
-    type: Recreate
+    name: {{ include "teamcloud-chat.name" . }}-mongo
+    role: mongo
+    environment: test
   template:
     metadata:
       labels:
+        name: {{ include "teamcloud-chat.name" . }}-mongo
+        role: mongo
+        environment: test
         app: {{ include "teamcloud-chat.name" . }}-mongo
-      annotations:
-        timestamp: "{{ now | unixEpoch }}"
     spec:
+      serviceAccountName: mongo-controller
       volumes:
        - name: teamcloud-mongo-vol
          persistentVolumeClaim:
@@ -28,16 +28,23 @@ spec:
          persistentVolumeClaim:
            claimName: {{ include "teamcloud-chat.name" . }}-mongo-backup
       containers:
-        - name: {{ include "teamcloud-chat.name" . }}-mongo
-          image: mongo:3.2
-          imagePullPolicy: Always
-          command: ["mongod"]
-          args: ["--smallfiles", "--oplogSize 128", "--replSet rs0"]
+        - name: mongo-node-1
+          image: mongo:4
+          command:
+            - mongod
+            - "--replSet"
+            - rs0
+            - "--bind_ip_all"
           volumeMounts:
            - name: teamcloud-mongo-vol
              mountPath: "/data/db"
            - name: teamcloud-mongo-backups-vol
-             mountPath: "/data/db"
+             mountPath: "/dump"
           ports:
-            - containerPort: 27017
-              name: mongo
+           - name: mongo
+             containerPort: 27017
+        - name: mongo-sidecar
+          image: cvallance/mongo-k8s-sidecar
+          env:
+            - name: MONGO_SIDECAR_POD_LABELS
+              value: "role=mongo,environment=test"

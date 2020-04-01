@@ -2,18 +2,18 @@ kind: Deployment
 apiVersion: apps/v1
 metadata:
   namespace: default
-  name: {{ include "teamcloud-chat.name" . }}-chat
+  name: {{ include "teamcloud-chat.name" . }}-rc
   labels:
-    app: {{ include "teamcloud-chat.name" . }}-chat
+    app: {{ include "teamcloud-chat.name" . }}-rc
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: {{ include "teamcloud-chat.name" . }}-chat
+      app: {{ include "teamcloud-chat.name" . }}-rc
   template:
     metadata:
       labels:
-        app: {{ include "teamcloud-chat.name" . }}-chat
+        app: {{ include "teamcloud-chat.name" . }}-rc
       annotations:
         timestamp: "{{ now | unixEpoch }}"
     spec:
@@ -24,12 +24,21 @@ spec:
        - name: rc-tmp-vol
          persistentVolumeClaim:
            claimName: {{ include "teamcloud-chat.name" . }}-rc-tmp
+      restartPolicy: Always
       containers:
        - name: chat
          image: rocketchat/rocket.chat:latest
          imagePullPolicy: Always
-         command: ["/bin/sh"]
-         args: ["-c", "'INSTANCE_IP=$$(hostname -i) node main.js'"]
+         command:
+          - bash
+          - -c
+          - >
+            for i in `seq 1 30`; do
+              node main.js &&
+              s=$$? && break || s=$$?;
+              echo \"Tried to connect $$i times. Waiting 5 secs...\";
+              sleep 5;
+            done; (exit $$s)
          volumeMounts:
            - name: rc-uploads-vol
              mountPath: "/app/uploads"
@@ -39,11 +48,15 @@ spec:
           - name: web
             containerPort: 3000
          env:
+          - name: INSTANCE_IP
+            valueFrom:
+              fieldRef:
+                fieldPath: status.podIP
           - name: ROOT_URL
-            value: https://{{ .Values.app.name }}.{{ .Values.app.domain }}
+            value: "https://{{ .Values.app.name }}.{{ .Values.app.domain }}"
           - name: PORT
-            value: 3000
+            value: "3000"
           - name: MONGO_URL
-            value: mongodb://{{ include "teamcloud-chat.name" . }}-mongo.default.svc.cluster.local:27017/rocketchat
+            value: 'mongodb://{{ include "teamcloud-chat.name" . }}-mongo/rocketchat'
           - name: MONGO_OPLOG_URL
-            value: mongodb://{{ include "teamcloud-chat.name" . }}-mongo.default.svc.cluster.local:27017/local
+            value: 'mongodb://{{ include "teamcloud-chat.name" . }}-mongo.default.svc.cluster.local:27017/local'

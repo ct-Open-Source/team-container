@@ -1,0 +1,34 @@
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  name: mongo-controller
+
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - pods
+    verbs:
+      - get
+      - list
+      - watch
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  name: mongo-controller
+
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: mongo-controller
+subjects:
+  - kind: ServiceAccount
+    name: mongo-controller
+    namespace: default
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  namespace: default
+  name: mongo-controller

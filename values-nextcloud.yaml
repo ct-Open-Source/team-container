@@ -8,7 +8,7 @@ storage:
     data: 128Gi
     database: 128Gi
 
-# you can change this values if you want
+# no need to change these values. For internal databas account only
 database:
   password: "secret#password"
   root_password: "very123secret#passWord!"

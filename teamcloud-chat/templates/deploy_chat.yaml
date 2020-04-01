@@ -60,3 +60,9 @@ spec:
             value: 'mongodb://{{ include "teamcloud-chat.name" . }}-mongo/rocketchat'
           - name: MONGO_OPLOG_URL
             value: 'mongodb://{{ include "teamcloud-chat.name" . }}-mongo.default.svc.cluster.local:27017/local'
+          - name: ADMIN_USERNAME
+            value: admin
+          - name: ADMIN_PASS
+            value: pass
+          - name: ADMIN_EMAIL
+            value: mail@example.org

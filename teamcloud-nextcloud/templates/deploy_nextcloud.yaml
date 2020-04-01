@@ -2,34 +2,34 @@ kind: Deployment
 apiVersion: apps/v1
 metadata:
   namespace: default
-  name: teamcloud-nextcloud
+  name: {{ include "teamcloud-nextcloud.name" . }}-nc
   labels:
-    app: teamcloud-nextcloud
+    app: {{ include "teamcloud-nextcloud.name" . }}-nc
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: teamcloud-nextcloud
+      app: {{ include "teamcloud-nextcloud.name" . }}-nc
   template:
     metadata:
       labels:
-        app: teamcloud-nextcloud
+        app: {{ include "teamcloud-nextcloud.name" . }}-nc
       annotations:
         timestamp: "{{ now | unixEpoch }}"
     spec:
       volumes:
        - name: nc-data-vol
          persistentVolumeClaim:
-           claimName: nc-data
+           claimName: {{ include "teamcloud-nextcloud.name" . }}-nc-data
        - name: nc-config-vol
          persistentVolumeClaim:
-           claimName: nc-config
+           claimName: {{ include "teamcloud-nextcloud.name" . }}-nc-config
        - name: nc-apps-vol
          persistentVolumeClaim:
-           claimName: nc-apps
+           claimName: {{ include "teamcloud-nextcloud.name" . }}-nc-apps
        - name: nc-themes-vol
          persistentVolumeClaim:
-           claimName: nc-themes
+           claimName: {{ include "teamcloud-nextcloud.name" . }}-nc-themes
       containers:
        - name: web
          image: nextcloud:stable
@@ -48,7 +48,7 @@ spec:
             containerPort: 80
          env:
           - name: MYSQL_HOST
-            value: teamcloud-nextcloud-db
+            value: {{ include "teamcloud-nextcloud.name" . }}-db
           - name: MYSQL_DATABASE
             value: nextcloud
           - name: MYSQL_USER

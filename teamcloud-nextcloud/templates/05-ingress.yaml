@@ -11,7 +11,7 @@ spec:
     - match: Host(`{{ .Values.app.name }}.{{ .Values.app.domain }}`)
       kind: Rule
       services:
-        - name: teamcloud-nextcloud
+        - name: {{ include "teamcloud-nextcloud.name" . }}-nc
           port: 80
   tls:
     certResolver: default

@@ -3,29 +3,29 @@ kind: Deployment
 apiVersion: apps/v1
 metadata:
   namespace: default
-  name: teamcloud-nextcloud-db
+  name: {{ include "teamcloud-nextcloud.name" . }}-db
   labels:
-    app: teamcloud-nextcloud-db
+    app: {{ include "teamcloud-nextcloud.name" . }}-db
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: teamcloud-nextcloud-db
+      app: {{ include "teamcloud-nextcloud.name" . }}-db
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: teamcloud-nextcloud-db
+        app: {{ include "teamcloud-nextcloud.name" . }}-db
       annotations:
         timestamp: "{{ now | unixEpoch }}"
     spec:
       volumes:
        - name: teamcloud-db-vol
          persistentVolumeClaim:
-           claimName: nc-db-data
+           claimName: {{ include "teamcloud-nextcloud.name" . }}-nc-db
       containers:
-        - name: teamcloud-nextcloud-db
+        - name: {{ include "teamcloud-nextcloud.name" . }}-db
           image: mariadb
           imagePullPolicy: Always
           volumeMounts:
@@ -38,12 +38,12 @@ spec:
             - name: MYSQL_ROOT_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: teamcloud-nc-database-secret
+                  name: {{ include "teamcloud-nextcloud.name" . }}-secret
                   key: rootpassword
             - name: MYSQL_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: teamcloud-nc-database-secret
+                  name: {{ include "teamcloud-nextcloud.name" . }}-secret
                   key: password
             - name: MYSQL_DATABASE
               value: "nextcloud"

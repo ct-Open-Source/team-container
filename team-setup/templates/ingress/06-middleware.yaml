@@ -1,0 +1,21 @@
+---
+# Combines all middlewares
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: traefik-middlewares
+spec:
+  chain:
+    middlewares:
+    - name: traefik-cleanheaders
+---
+# clean headers
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: traefik-cleanheaders
+spec:
+  headers:
+    customResponseHeaders:
+      x-powered-by: ""
+      server: ""

@@ -4,10 +4,10 @@ A collection of containers to start a collaboration server.
 
 ## Tools in this collection
 
-* Nextcloud
-* Rocket.Chat
-* Jitsi Meet
-* Træfik Router
+* [Nextcloud](https://nextcloud.com)
+* [Rocket.Chat](https://rocket.chat)
+* [Jitsi Meet](https://jitsi.org)
+* [Træfik Router](https://docs.traefik.io)
 
 # Getting started
 

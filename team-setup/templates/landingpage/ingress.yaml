@@ -14,5 +14,7 @@ spec:
       services:
         - name: landingpage
           port: 80
+      middlewares:
+        - name: traefik-middlewares
   tls:
     certResolver: default

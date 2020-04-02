@@ -22,7 +22,7 @@ spec:
            claimName: traefik-cert
       containers:
         - name: traefik
-          image: traefik:v2.1
+          image: traefik:v2.2
           imagePullPolicy: Always
           volumeMounts:
            - name: cert-vol

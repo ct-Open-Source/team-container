@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: {{ include "teamcloud-nextcloud.name" . }}-nc-data
+  name: {{ include "teamcloud-nextcloud.fullname" . }}-nc-data
 spec:
   accessModes:
     - ReadWriteOnce
@@ -9,47 +9,11 @@ spec:
   resources:
     requests:
       storage: {{ .Values.storage.limits.data }}
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: {{ include "teamcloud-nextcloud.name" . }}-nc-config
-spec:
-  accessModes:
-    - ReadWriteOnce
-  storageClassName: local-path
-  resources:
-    requests:
-      storage: 128Mi
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: {{ include "teamcloud-nextcloud.name" . }}-nc-apps
-spec:
-  accessModes:
-    - ReadWriteOnce
-  storageClassName: local-path
-  resources:
-    requests:
-      storage: 512Mi
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: {{ include "teamcloud-nextcloud.name" . }}-nc-themes
-spec:
-  accessModes:
-    - ReadWriteOnce
-  storageClassName: local-path
-  resources:
-    requests:
-      storage: 128Mi
 ---      
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: {{ include "teamcloud-nextcloud.name" . }}-nc-db
+  name: {{ include "teamcloud-nextcloud.fullname" . }}-nc-db
 spec:
   accessModes:
     - ReadWriteOnce

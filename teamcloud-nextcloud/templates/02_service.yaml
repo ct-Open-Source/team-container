@@ -1,23 +1,35 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "teamcloud-nextcloud.name" . }}-nc
+  name: {{ include "teamcloud-nextcloud.fullname" . }}-nc
 spec:
   ports:
     - protocol: TCP
       name: web
       port: 80
   selector:
-    app: {{ include "teamcloud-nextcloud.name" . }}-nc
+    app: {{ include "teamcloud-nextcloud.fullname" . }}-nc
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "teamcloud-nextcloud.name" . }}-db
+  name: {{ include "teamcloud-nextcloud.fullname" . }}-db
 spec:
   ports:
     - protocol: TCP
       name: sql
       port: 3306
   selector:
-    app: {{ include "teamcloud-nextcloud.name" . }}-db
+    app: {{ include "teamcloud-nextcloud.fullname" . }}-db
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "teamcloud-nextcloud.fullname" . }}-redis
+spec:
+  ports:
+    - protocol: TCP
+      name: redis
+      port: 6379
+  selector:
+    app: {{ include "teamcloud-nextcloud.fullname" . }}-redis

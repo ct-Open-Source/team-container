@@ -2,7 +2,7 @@ app:
   name: chat
   domain: example.org
 
-  # Set a username and password for the first administrator account:
+# Set a username and password for the first administrator account:
 admin:
   name: admin
   password: secret

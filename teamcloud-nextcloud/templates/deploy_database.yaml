@@ -3,29 +3,29 @@ kind: Deployment
 apiVersion: apps/v1
 metadata:
   namespace: default
-  name: {{ include "teamcloud-nextcloud.name" . }}-db
+  name: {{ include "teamcloud-nextcloud.fullname" . }}-db
   labels:
-    app: {{ include "teamcloud-nextcloud.name" . }}-db
+    app: {{ include "teamcloud-nextcloud.fullname" . }}-db
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: {{ include "teamcloud-nextcloud.name" . }}-db
+      app: {{ include "teamcloud-nextcloud.fullname" . }}-db
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: {{ include "teamcloud-nextcloud.name" . }}-db
+        app: {{ include "teamcloud-nextcloud.fullname" . }}-db
       annotations:
         timestamp: "{{ now | unixEpoch }}"
     spec:
       volumes:
        - name: teamcloud-db-vol
          persistentVolumeClaim:
-           claimName: {{ include "teamcloud-nextcloud.name" . }}-nc-db
+           claimName: {{ include "teamcloud-nextcloud.fullname" . }}-nc-db
       containers:
-        - name: {{ include "teamcloud-nextcloud.name" . }}-db
+        - name: {{ include "teamcloud-nextcloud.fullname" . }}-db
           image: mariadb
           imagePullPolicy: Always
           volumeMounts:
@@ -38,12 +38,12 @@ spec:
             - name: MYSQL_ROOT_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "teamcloud-nextcloud.name" . }}-secret
+                  name: {{ include "teamcloud-nextcloud.fullname" . }}-secret
                   key: rootpassword
             - name: MYSQL_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "teamcloud-nextcloud.name" . }}-secret
+                  name: {{ include "teamcloud-nextcloud.fullname" . }}-secret
                   key: password
             - name: MYSQL_DATABASE
               value: "nextcloud"
@@ -51,3 +51,32 @@ spec:
               value: "nextcloud"
             - name: MYSQL_INITDB_SKIP_TZINFO
               value: "1"
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  namespace: default
+  name: {{ include "teamcloud-nextcloud.fullname" . }}-redis
+  labels:
+    app: {{ include "teamcloud-nextcloud.fullname" . }}-redis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ include "teamcloud-nextcloud.fullname" . }}-redis
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: {{ include "teamcloud-nextcloud.fullname" . }}-redis
+      annotations:
+        timestamp: "{{ now | unixEpoch }}"
+    spec:
+      containers:
+        - name: {{ include "teamcloud-nextcloud.fullname" . }}-redis
+          image: redis:alpine
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 6379
+              name: redis

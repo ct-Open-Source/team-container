@@ -2,6 +2,11 @@ app:
   name: cloud
   domain: example.org
 
+# Set a username and password for the first administrator account:
+admin:
+  name: admin
+  password: secret
+
 # storage limit for nextcloud files and database
 storage:
   limits:

@@ -1,0 +1,17 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: ingressroute-{{ include "team-chat.name" . }}
+  namespace: default
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`{{ .Values.app.name }}.{{ .Values.app.domain }}`)
+      kind: Rule
+      services:
+        - name: {{ include "team-chat.name" . }}-rc
+          port: 3000
+  tls:
+    certResolver: default

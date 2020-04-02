@@ -1,0 +1,20 @@
+# Domain and subdomain for this service:
+app:
+  name: cloud
+  domain: example.org
+
+# Set a username and password for the first administrator account:
+admin:
+  name: admin
+  password: secret
+
+# Storage limit for nextcloud files and database:
+storage:
+  limits:
+    data: 128Gi
+    database: 128Gi
+
+# No need to change these values. For internal database account only:
+database:
+  password: "secret#password"
+  root_password: "very123secret#passWord!"

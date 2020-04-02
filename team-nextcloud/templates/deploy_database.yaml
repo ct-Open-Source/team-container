@@ -1,0 +1,82 @@
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  namespace: default
+  name: {{ include "team-nextcloud.fullname" . }}-db
+  labels:
+    app: {{ include "team-nextcloud.fullname" . }}-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ include "team-nextcloud.fullname" . }}-db
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: {{ include "team-nextcloud.fullname" . }}-db
+      annotations:
+        timestamp: "{{ now | unixEpoch }}"
+    spec:
+      volumes:
+       - name: team-db-vol
+         persistentVolumeClaim:
+           claimName: {{ include "team-nextcloud.fullname" . }}-nc-db
+      containers:
+        - name: {{ include "team-nextcloud.fullname" . }}-db
+          image: mariadb
+          imagePullPolicy: Always
+          volumeMounts:
+           - name: team-db-vol
+             mountPath: "/var/lib/mysql"
+          ports:
+            - containerPort: 3306
+              name: mysql
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "team-nextcloud.fullname" . }}-secret
+                  key: rootpassword
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "team-nextcloud.fullname" . }}-secret
+                  key: password
+            - name: MYSQL_DATABASE
+              value: "nextcloud"
+            - name: MYSQL_USER
+              value: "nextcloud"
+            - name: MYSQL_INITDB_SKIP_TZINFO
+              value: "1"
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  namespace: default
+  name: {{ include "team-nextcloud.fullname" . }}-redis
+  labels:
+    app: {{ include "team-nextcloud.fullname" . }}-redis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ include "team-nextcloud.fullname" . }}-redis
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: {{ include "team-nextcloud.fullname" . }}-redis
+      annotations:
+        timestamp: "{{ now | unixEpoch }}"
+    spec:
+      containers:
+        - name: {{ include "team-nextcloud.fullname" . }}-redis
+          image: redis:alpine
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 6379
+              name: redis

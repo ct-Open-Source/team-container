@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "team-nextcloud.fullname" . }}-nc-data
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: local-path
+  resources:
+    requests:
+      storage: {{ .Values.storage.limits.data }}
+---      
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "team-nextcloud.fullname" . }}-nc-db
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: local-path
+  resources:
+    requests:
+      storage: {{ .Values.storage.limits.database }}
+---

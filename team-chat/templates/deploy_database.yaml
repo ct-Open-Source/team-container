@@ -1,0 +1,50 @@
+kind: ReplicationController
+apiVersion: v1
+metadata:
+  namespace: default
+  name: {{ include "team-chat.name" . }}-mongo
+  labels:
+    app: {{ include "team-chat.name" . }}-mongo
+spec:
+  replicas: 1
+  selector:
+    name: {{ include "team-chat.name" . }}-mongo
+    role: mongo
+    environment: test
+  template:
+    metadata:
+      labels:
+        name: {{ include "team-chat.name" . }}-mongo
+        role: mongo
+        environment: test
+        app: {{ include "team-chat.name" . }}-mongo
+    spec:
+      serviceAccountName: mongo-controller
+      volumes:
+       - name: team-mongo-vol
+         persistentVolumeClaim:
+           claimName: {{ include "team-chat.name" . }}-mongo-data
+       - name: team-mongo-backups-vol
+         persistentVolumeClaim:
+           claimName: {{ include "team-chat.name" . }}-mongo-backup
+      containers:
+        - name: mongo-node-1
+          image: mongo:4
+          command:
+            - mongod
+            - "--replSet"
+            - rs0
+            - "--bind_ip_all"
+          volumeMounts:
+           - name: team-mongo-vol
+             mountPath: "/data/db"
+           - name: team-mongo-backups-vol
+             mountPath: "/dump"
+          ports:
+           - name: mongo
+             containerPort: 27017
+        - name: mongo-sidecar
+          image: cvallance/mongo-k8s-sidecar
+          env:
+            - name: MONGO_SIDECAR_POD_LABELS
+              value: "role=mongo,environment=test"

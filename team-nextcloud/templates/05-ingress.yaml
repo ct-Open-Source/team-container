@@ -1,0 +1,17 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: ingressroute-{{ include "team-nextcloud.fullname" . }}
+  namespace: default
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`{{ .Values.app.name }}.{{ .Values.app.domain }}`)
+      kind: Rule
+      services:
+        - name: {{ include "team-nextcloud.fullname" . }}-nc
+          port: 80
+  tls:
+    certResolver: default

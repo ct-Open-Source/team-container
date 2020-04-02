@@ -1,0 +1,8 @@
+apiVersion: v2
+name: team-video
+description: Video meetings for teamcloud
+
+type: application
+
+version: 0.0.1
+appVersion: 0.0.1

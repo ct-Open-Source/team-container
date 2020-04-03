@@ -1,14 +1,15 @@
+# Domain and subdomain for this service:
 app:
   name: chat
   domain: example.org
 
-  # Set a username and password for the first administrator account:
+# Set a username and password for the first administrator account:
 admin:
   name: admin
   password: secret
   mail: admin@example.org
 
-# storage limit for files and database (no need to change)
+# Storage limit for files and database (no need to change):
 storage:
   limits:
     data: 128Gi

@@ -2,31 +2,31 @@ kind: ReplicationController
 apiVersion: v1
 metadata:
   namespace: default
-  name: {{ include "team-chat.name" . }}-mongo
+  name: {{ include "team-chat.fullname" . }}-mongo
   labels:
-    app: {{ include "team-chat.name" . }}-mongo
+    app: {{ include "team-chat.fullname" . }}-mongo
 spec:
   replicas: 1
   selector:
-    name: {{ include "team-chat.name" . }}-mongo
+    name: {{ include "team-chat.fullname" . }}-mongo
     role: mongo
-    environment: test
+    environment: {{ include "team-chat.fullname" . }}-mongo
   template:
     metadata:
       labels:
-        name: {{ include "team-chat.name" . }}-mongo
+        name: {{ include "team-chat.fullname" . }}-mongo
         role: mongo
-        environment: test
-        app: {{ include "team-chat.name" . }}-mongo
+        environment: {{ include "team-chat.fullname" . }}-mongo
+        app: {{ include "team-chat.fullname" . }}-mongo
     spec:
       serviceAccountName: mongo-controller
       volumes:
        - name: team-mongo-vol
          persistentVolumeClaim:
-           claimName: {{ include "team-chat.name" . }}-mongo-data
+           claimName: {{ include "team-chat.fullname" . }}-mongo-data
        - name: team-mongo-backups-vol
          persistentVolumeClaim:
-           claimName: {{ include "team-chat.name" . }}-mongo-backup
+           claimName: {{ include "team-chat.fullname" . }}-mongo-backup
       containers:
         - name: mongo-node-1
           image: mongo:4
@@ -47,4 +47,4 @@ spec:
           image: cvallance/mongo-k8s-sidecar
           env:
             - name: MONGO_SIDECAR_POD_LABELS
-              value: "role=mongo,environment=test"
+              value: "role=mongo,environment={{ include "team-chat.fullname" . }}-mongo"

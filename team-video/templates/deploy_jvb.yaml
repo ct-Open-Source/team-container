@@ -33,9 +33,9 @@ spec:
               fieldRef:
                 fieldPath: status.hostIP
           - name: XMPP_DOMAIN
-            value: meet.jitsi
+            value: {{ .Values.app.name }}.{{ .Values.app.domain }}
           - name: XMPP_AUTH_DOMAIN
-            value: auth.meet.jitsi
+            value: auth.{{ .Values.app.name }}.{{ .Values.app.domain }}
           - name: JVB_PORT
             value: "30000"
           - name: JVB_TCP_PORT
@@ -43,11 +43,11 @@ spec:
           - name: JVB_AUTH_USER
             value: jvb
           - name: JVB_AUTH_PASSWORD
-            value: passw0rd
+            value: {{ .Values.secrets.jvb.auth }}
           - name: JVB_BREWERY_MUC
             value: jvbbrewery
           - name: XMPP_INTERNAL_MUC_DOMAIN
-            value: internal-muc.meet.jitsi
+            value: internal-muc.{{ .Values.app.name }}.{{ .Values.app.domain }}
           - name: JVB_STUN_SERVERS
             value: stun.l.google.com:19302,stun1.l.google.com:19302,stun2.l.google.com:19302
           - name: JICOFO_AUTH_USER

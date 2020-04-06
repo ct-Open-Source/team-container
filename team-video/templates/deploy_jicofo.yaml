@@ -2,28 +2,27 @@ kind: Deployment
 apiVersion: apps/v1
 metadata:
   namespace: default
-  name: team-jicofo
+  name: {{ include "team-video.fullname" . }}-jicofo
   labels:
-    app: team-jicofo
+    app: {{ include "team-video.fullname" . }}-jicofo
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: team-jicofo
+      app: {{ include "team-video.fullname" . }}-jicofo
   template:
     metadata:
       labels:
-        app: team-jicofo
+        app: {{ include "team-video.fullname" . }}-jicofo
       annotations:
         timestamp: "{{ now | unixEpoch }}"
     spec:
       containers:
        - name: jicofo
          image: jitsi/jicofo
-#         restartPolicy: Always
          env:
           - name: XMPP_SERVER
-            value: prosody.default.svc.cluster.local
+            value: {{ include "team-video.fullname" . }}-prosody.default.svc.cluster.local
           - name: XMPP_DOMAIN
             value: meet.jitsi
           - name: XMPP_AUTH_DOMAIN

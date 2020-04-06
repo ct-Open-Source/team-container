@@ -4,7 +4,8 @@ kind: Service
 metadata:
   labels:
     app: jitsi
-  name: jvb
+  name: {{ include "team-video.fullname" . }}-jvb
+  namespace: default
 spec:
   type: NodePort
   ports:
@@ -19,26 +20,27 @@ spec:
     protocol: TCP
     targetPort: 30001
   selector:
-    app: team-jvb
+    app: {{ include "team-video.fullname" . }}-jvb
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: team-video
+  name: {{ include "team-video.fullname" . }}-web
+  namespace: default
 spec:
   ports:
     - protocol: TCP
       name: web
       port: 80
   selector:
-    app: team-video
+    app: {{ include "team-video.fullname" . }}-web
 ---
 apiVersion: v1
 kind: Service
 metadata:
   labels:
-    service: prosody
-  name: prosody
+    service: {{ include "team-video.fullname" . }}-prosody
+  name: {{ include "team-video.fullname" . }}-prosody
 spec:
   ports:
   - name: "5222"
@@ -51,6 +53,6 @@ spec:
     port: 5347
     targetPort: 5347
   selector:
-    app: team-prosody
+    app: {{ include "team-video.fullname" . }}-prosody
 status:
   loadBalancer: {}

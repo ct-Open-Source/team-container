@@ -2,18 +2,18 @@ kind: Deployment
 apiVersion: apps/v1
 metadata:
   namespace: default
-  name: team-prosody
+  name: {{ include "team-video.fullname" . }}-prosody
   labels:
-    app: team-prosody
+    app: {{ include "team-video.fullname" . }}-prosody
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: team-prosody
+      app: {{ include "team-video.fullname" . }}-prosody
   template:
     metadata:
       labels:
-        app: team-prosody
+        app: {{ include "team-video.fullname" . }}-prosody
       annotations:
         timestamp: "{{ now | unixEpoch }}"
     spec:

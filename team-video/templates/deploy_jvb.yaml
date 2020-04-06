@@ -2,18 +2,18 @@ kind: Deployment
 apiVersion: apps/v1
 metadata:
   namespace: default
-  name: team-jvb
+  name: {{ include "team-video.fullname" . }}-jvb
   labels:
-    app: team-jvb
+    app: {{ include "team-video.fullname" . }}-jvb
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: team-jvb
+      app: {{ include "team-video.fullname" . }}-jvb
   template:
     metadata:
       labels:
-        app: team-jvb
+        app: {{ include "team-video.fullname" . }}-jvb
       annotations:
         timestamp: "{{ now | unixEpoch }}"
     spec:
@@ -25,10 +25,9 @@ spec:
            protocol: UDP
          - containerPort: 30001
          resources: {}
-#         restartPolicy: Always
          env:
           - name: XMPP_SERVER
-            value: prosody
+            value: {{ include "team-video.fullname" . }}-prosody
           - name: DOCKER_HOST_ADDRESS
             valueFrom:
               fieldRef:

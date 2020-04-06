@@ -2,18 +2,18 @@ kind: Deployment
 apiVersion: apps/v1
 metadata:
   namespace: default
-  name: team-video
+  name: {{ include "team-video.fullname" . }}-web
   labels:
-    app: team-video
+    app: {{ include "team-video.fullname" . }}-web
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: team-video
+      app: {{ include "team-video.fullname" . }}-web
   template:
     metadata:
       labels:
-        app: team-video
+        app: {{ include "team-video.fullname" . }}-web
       annotations:
         timestamp: "{{ now | unixEpoch }}"
     spec:
@@ -31,7 +31,7 @@ spec:
           - name: XMPP_AUTH_DOMAIN
             value: auth.meet.jitsi
           - name: XMPP_BOSH_URL_BASE
-            value: http://prosody:5280
+            value: http://{{ include "team-video.fullname" . }}-prosody:5280
           - name: XMPP_MUC_DOMAIN
             value: muc.meet.jitsi
           - name: TZ

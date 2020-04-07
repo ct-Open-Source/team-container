@@ -3,10 +3,10 @@ app:
   domain: example.org
 
   # nothing to change below this line.
-  secrets:
-    jvb:
-      component: "jsdjhjk623sxbnedrtg42315tr"
-      auth: "srfddffgjsdf34342349988"
-    jicofo:
-      component: "s234sdffghbvjnndf!"
-      auth: "sdfokjsdfkl123123123ghghg!"
+secrets:
+  jvb:
+    component: "jsdjhjk623sxbnedrtg42315tr"
+    auth: "srfddffgjsdf34342349988"
+  jicofo:
+    component: "s234sdffghbvjnndf!"
+    auth: "sdfokjsdfkl123123123ghghg!"

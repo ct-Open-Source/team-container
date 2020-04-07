@@ -2,7 +2,7 @@ app:
   name: video
   domain: example.org
 
-  #
+  # nothing to change below this line.
   secrets:
     jvb:
       component: "jsdjhjk623sxbnedrtg42315tr"

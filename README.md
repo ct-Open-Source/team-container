@@ -17,7 +17,7 @@ The goal is to provide a private collaboration server for a small to medium size
 * *Jitsi Meet* for browser based video conferencing. Apps for mobile platforms are available.
 
 All you need is 
-* A linux server, prefarably running Ubuntu 18.04 LTS or another Debian GNU/Linux derivate.
+* A linux server, prefarably running Ubuntu 18.04 LTS or another Debian GNU/Linux derivate. There is a [compatibility list for some hosting providers](https://github.com/ct-Open-Source/team-container/wiki/Compatibility) in the wiki.
 * A domain name, e.g. example.org and four subdomains pointing to your server, i.e. www.example.org, cloud.example.org, chat.example.org and video.example.org
 * basic experience with the linux terminal
 
@@ -35,15 +35,23 @@ The first container ((Kubernetes, Rancher, helm) you install contains Traefik. T
 * open "values-setup.yaml". Enter your e-Mail address, set production to true, enter the main server name (e.g. www) and domain name. 
 * install Traefik, the router: `helm install setup team-setup --values values-setup.yaml`
 * wait a few minutes - until https://yourserver.example.com returns the nginx welcome page using a valid Let's Encrypt TLS certificate. Traefik and nginx are now functional.
+
+## Install Nextcloud
 * open "values-nextcloud.yaml". Enter server name (e.g. cloud), domain name (e.g. example.org), a name for the Nextcloud administrator and the initial password for the Nextcloud administrator. 
 * install Nextcloud: `helm install setup team-nextcloud --values values-nextcloud.yaml`
 * After a few minutes your own Nextcloud server will be up and running under https://cloud.example.org. You can log in as the administrator with the password you provided in the last step. Proceed and add regular users. Or
+
+## Install Rocket.Chat
 * open "values-chat.yaml". Enter server name (e.g. chat), domain name (e.g. example.org), a name for the Rocket.Chat administrator, the initial password for the Rocket.Chat administrator and his e-mail adress. 
 * install Rocket.Chat: `helm install chat team-chat --values values-chat.yaml`
-* after a few minutes your own Rocket.Chat server will be up and running under https://chat.example.org. You can log in as the administrator with the password you provided in the last step. Proceed and add regular users. Or
+* after a few minutes your own Rocket.Chat server will be up and running under https://chat.example.org. You can log in as the administrator with the password you provided in the last step. Proceed and add regular users.
+
+## Install Jitsi Meet
 * open "values-video.yaml". Enter server name (e.g. video) and domain name (e.g. example.org) 
 * install Jitsi Meet: `helm install video team-video --values values-video.yaml`
 * after a few minutes your own Jitsi Meet video chat server will be up and running under https://video.example.org. 
 * please refer to the above mentioned project web sites for help on using the services.
 
+# To do / Known issues
 
+* not tested with IPv6

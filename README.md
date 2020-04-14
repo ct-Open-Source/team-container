@@ -38,7 +38,7 @@ The first container ((Kubernetes, Rancher, helm) you install contains Traefik. T
 
 ## Install Nextcloud
 * open "values-nextcloud.yaml". Enter server name (e.g. cloud), domain name (e.g. example.org), a name for the Nextcloud administrator and the initial password for the Nextcloud administrator. 
-* install Nextcloud: `helm install setup team-nextcloud --values values-nextcloud.yaml`
+* install Nextcloud: `helm install nextcloud team-nextcloud --values values-nextcloud.yaml`
 * After a few minutes your own Nextcloud server will be up and running under https://cloud.example.org. You can log in as the administrator with the password you provided in the last step. Proceed and add regular users. Or
 
 ## Install Rocket.Chat

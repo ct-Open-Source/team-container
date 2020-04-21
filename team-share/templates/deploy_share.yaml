@@ -1,0 +1,44 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  namespace: default
+  name: {{ include "team-share.fullname" . }}-rc
+  labels:
+    app: {{ include "team-share.fullname" . }}-rc
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ include "team-share.fullname" . }}-rc
+  template:
+    metadata:
+      labels:
+        app: {{ include "team-share.fullname" . }}-rc
+      annotations:
+        timestamp: "{{ now | unixEpoch }}"
+    spec:
+      volumes:
+       - name: rc-uploads-vol
+         persistentVolumeClaim:
+           claimName: {{ include "team-share.fullname" . }}-rc-data
+      restartPolicy: Always
+      containers:
+       - name: share
+         image: rootgg/plik:latest
+         imagePullPolicy: Always
+         command:
+         volumeMounts:
+           - name: rc-uploads-vol
+             mountPath: "/home/plik/server/files"
+         ports:
+          - name: web
+            containerPort: 8080
+         env:
+          - name: INSTANCE_IP
+            valueFrom:
+              fieldRef:
+                fieldPath: status.podIP
+          - name: ROOT_URL
+            value: "https://{{ .Values.app.name }}.{{ .Values.app.domain }}"
+          - name: PORT
+            value: "8080"

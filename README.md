@@ -25,6 +25,10 @@ Knowledge of container technology or other typical linux admin topics is not req
 
 The first container ((Kubernetes, Rancher, helm) you install contains Traefik. Traefik routes incoming traffic to either the web server nginx or one of the other three containers you will install subsequently. Each of those containers runs an instance of Nextloud, Rocket.Chat or Jitsi Meet. The routing decision is based on the server name specified when setting up the containers. All four servers should have the same domain name.
 
+# Roadmap / Contribute
+
+A lot of improvements are on our agenda. Have a look at the [Project board at GitHub](https://github.com/ct-Open-Source/team-container/projects/1) and feel free to create an issue or PR!
+
 # Getting started
 
 * prepare a server with a current version of Linux server (tested with Ubuntu Server 18.04 LTS)

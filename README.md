@@ -58,4 +58,4 @@ A lot of improvements are on our agenda. Have a look at the [Project board at Gi
 
 # To do / Known issues
 
-* not tested with IPv6
+* not working with IPv6

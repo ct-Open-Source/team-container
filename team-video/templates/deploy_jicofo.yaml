@@ -20,6 +20,7 @@ spec:
       containers:
        - name: jicofo
          image: jitsi/jicofo
+         imagePullPolicy: {{ .Values.app.pullpolicy }}
          env:
           {{ if .Values.auth.enabled}}
           - name: ENABLE_AUTH

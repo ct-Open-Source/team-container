@@ -30,6 +30,7 @@ spec:
              exec:
                command: ["/bin/bash", "-c", "sleep 60; prosodyctl --config /config/prosody.cfg.lua register {{ .Values.auth.admin.user }} {{ .Values.app.name }}.{{ .Values.app.domain }} {{ .Values.auth.admin.password }}"]
          image: jitsi/prosody
+         imagePullPolicy: {{ .Values.app.pullpolicy }}
          env:
           {{ if .Values.auth.enabled}}
           - name: ENABLE_AUTH

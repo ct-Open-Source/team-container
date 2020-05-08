@@ -20,9 +20,16 @@ spec:
       containers:
        - name: web
          image: jitsi/web
+         imagePullPolicy: {{ .Values.app.pullpolicy }}
          ports:
           - name: web
             containerPort: 80
+        {{if .Values.hideWelcomePage}}
+         lifecycle:
+           postStart:
+             exec:
+               command: ['/bin/bash', '-c', 'sleep 60; sed -i "s/enableWelcomePage: true,/enableWelcomePage: false,/g" /config/config.js']
+        {{end}}
          env:
           {{ if .Values.auth.enabled}}
           - name: ENABLE_AUTH

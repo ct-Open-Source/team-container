@@ -20,6 +20,7 @@ spec:
       containers:
        - name: jvb
          image: jitsi/jvb
+         imagePullPolicy: {{ .Values.app.pullpolicy }}
          ports:
          - containerPort: 30000
            protocol: UDP

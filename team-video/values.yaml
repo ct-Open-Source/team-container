@@ -1,6 +1,7 @@
 app:
   name: video
   domain: example.org
+  pullpolicy: IfNotPresent
 
 auth:
   enabled: false
@@ -11,6 +12,7 @@ auth:
     password: "jitsiAdmin"
 
 logLevel: "info"
+hideWelcomePage: true
 
 stun:
   server:

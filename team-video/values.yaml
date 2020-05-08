@@ -2,7 +2,18 @@ app:
   name: video
   domain: example.org
 
-  # nothing to change below this line.
+auth:
+  enabled: false
+  guests: true
+  type: "internal"
+  admin:
+    user: admin
+    password: "jitsiAdmin"
+
+stun:
+  server: stun.stunprotocol.org:3478, stun.services.mozilla.com:3478
+
+  # optional changes below this line.
 secrets:
   jvb:
     component: "jsdjhjk623sxbnedrtg42315tr"

@@ -46,6 +46,10 @@ spec:
             value: {{ .Values.secrets.jvb.auth }}
           - name: JVB_BREWERY_MUC
             value: jvbbrewery
+            {{ if .Values.auth.guests}}
+          - name: XMPP_GUEST_DOMAIN
+            value: guest.{{ .Values.app.name }}.{{ .Values.app.domain }}
+            {{end}}
           - name: XMPP_INTERNAL_MUC_DOMAIN
             value: internal-muc.{{ .Values.app.name }}.{{ .Values.app.domain }}
           - name: JVB_STUN_SERVERS

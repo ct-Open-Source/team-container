@@ -1,3 +1,13 @@
 app:
   name: video
   domain: example.org
+
+auth:
+  enabled: true
+  guests: true
+  type: internal
+  admin:
+    user: admin
+    password: "jitsiAdmin"
+stun:
+  server:

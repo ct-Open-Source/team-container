@@ -3,11 +3,14 @@ app:
   domain: example.org
 
 auth:
-  enabled: true
+  enabled: false
   guests: true
   type: internal
   admin:
     user: admin
     password: "jitsiAdmin"
-stun:
-  server:
+
+logLevel: "info"
+# Remove following # to use different stun servers
+# stun:
+#  server: stun.stunprotocol.org:3478, stun.services.mozilla.com:3478

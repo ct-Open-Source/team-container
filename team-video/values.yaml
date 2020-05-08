@@ -10,8 +10,10 @@ auth:
     user: admin
     password: "jitsiAdmin"
 
+logLevel: "info"
+
 stun:
-  server: stun.stunprotocol.org:3478, stun.services.mozilla.com:3478
+  server:
 
   # optional changes below this line.
 secrets:

@@ -63,6 +63,8 @@ spec:
             value: jvb
           - name: JVB_AUTH_PASSWORD
             value: {{ .Values.secrets.jvb.auth }}
+          - name: LOG_LEVEL
+            value: {{ .Values.logLevel }}
           - name: XMPP_INTERNAL_MUC_DOMAIN
             value: internal-muc.{{ .Values.app.name }}.{{ .Values.app.domain }}
           - name: TZ

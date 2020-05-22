@@ -5,9 +5,3 @@ acme:
 app:
   name: cloud
   domain: example.org
-
-# optional parameters. Uncomment if needed
-
-# custom stun servers
-# stun:
-#   server: stun.stunprotocol.org:3478,stun.services.mozilla.com:3478

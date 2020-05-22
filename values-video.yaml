@@ -6,10 +6,25 @@ app:
 auth:
   enabled: false
   guests: true
+  # internal auth
   type: internal
   admin:
     user: admin
     password: "jitsiAdmin"
+  # ldap auth - remove above "type: internal" auth to use it
+  #type: ldap
+  #ldapauthmethod: bind
+  #ldapurl: ldap://LDAP_SERVER
+  #ldapusetls: 1
+  #ldapstarttls: 1 # needs LDAP_VERSIOn 3
+  #ldaptlscacertfile:
+  #ldaptlscacertdir:
+  #ldaptlscheckpeer:
+  #ldapbase: OU=users,DC=domain,DC=local
+  #ldapbinddn: CN=ldap user,OU=svc_users,DC=domain,DC=local
+  #ldapbindpw: VerySecretPassword
+  #ldapfilter: (&(&(|(objectclass=person)))(|(samaccountname=%uid)(|(mailPrimaryAddress=%uid)(mail=%uid))))
+  #ldapversion: 3 # can break helm upgrade
 
 logLevel: "info"
 hideWelcomePage: true

@@ -1,3 +1,18 @@
 app:
   name: video
   domain: example.org
+  pullpolicy: IfNotPresent # set to Always for auto updates
+
+auth:
+  enabled: false
+  guests: true
+  type: internal
+  admin:
+    user: admin
+    password: "jitsiAdmin"
+
+logLevel: "info"
+hideWelcomePage: true
+# Remove following # to use different stun servers
+# stun:
+#  server: stun.stunprotocol.org:3478, stun.services.mozilla.com:3478

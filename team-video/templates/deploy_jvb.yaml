@@ -20,6 +20,7 @@ spec:
       containers:
        - name: jvb
          image: jitsi/jvb
+         imagePullPolicy: {{ .Values.app.pullpolicy }}
          ports:
          - containerPort: 30000
            protocol: UDP
@@ -46,10 +47,18 @@ spec:
             value: {{ .Values.secrets.jvb.auth }}
           - name: JVB_BREWERY_MUC
             value: jvbbrewery
+            {{ if .Values.auth.guests}}
+          - name: XMPP_GUEST_DOMAIN
+            value: guest.{{ .Values.app.name }}.{{ .Values.app.domain }}
+            {{end}}
           - name: XMPP_INTERNAL_MUC_DOMAIN
             value: internal-muc.{{ .Values.app.name }}.{{ .Values.app.domain }}
           - name: JVB_STUN_SERVERS
+          {{ if .Values.stun.server}}
+            value: {{ .Values.stun.server }}
+          {{else}}
             value: stun.l.google.com:19302,stun1.l.google.com:19302,stun2.l.google.com:19302
+          {{end}}
           - name: JICOFO_AUTH_USER
             value: focus
           - name: TZ

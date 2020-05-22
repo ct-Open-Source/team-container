@@ -20,13 +20,24 @@ spec:
       containers:
        - name: jicofo
          image: jitsi/jicofo
+         imagePullPolicy: {{ .Values.app.pullpolicy }}
          env:
+          {{ if .Values.auth.enabled}}
+          - name: ENABLE_AUTH
+            value: "true"
+          - name: AUTH_TYPE
+            value: {{ .Values.auth.type }}
+          {{end}}
           - name: XMPP_SERVER
             value: {{ include "team-video.fullname" . }}-prosody
           - name: XMPP_DOMAIN
             value: {{ .Values.app.name }}.{{ .Values.app.domain }}
           - name: XMPP_AUTH_DOMAIN
             value: auth.{{ .Values.app.name }}.{{ .Values.app.domain }}
+            {{ if .Values.auth.guests}}
+          - name: XMPP_GUEST_DOMAIN
+            value: guest.{{ .Values.app.name }}.{{ .Values.app.domain }}
+            {{end}}
           - name: JICOFO_COMPONENT_SECRET
             value: {{ .Values.secrets.jicofo.component }}
           - name: JICOFO_AUTH_USER

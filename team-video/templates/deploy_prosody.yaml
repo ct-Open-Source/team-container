@@ -25,10 +25,29 @@ spec:
           - containerPort: 5347
          resources: {}
 #         restartPolicy: Always
+         lifecycle:
+           postStart:
+             exec:
+               command: ["/bin/bash", "-c", "sleep 60; prosodyctl --config /config/prosody.cfg.lua register {{ .Values.auth.admin.user }} {{ .Values.app.name }}.{{ .Values.app.domain }} {{ .Values.auth.admin.password }}"]
          image: jitsi/prosody
+         imagePullPolicy: {{ .Values.app.pullpolicy }}
          env:
+          {{ if .Values.auth.enabled}}
+          - name: ENABLE_AUTH
+            value: "true"
+            {{ if .Values.auth.guests}}
+          - name: ENABLE_GUESTS
+            value: "true"
+            {{end}}
+          - name: AUTH_TYPE
+            value: {{ .Values.auth.type }}
+          {{end}}
           - name: XMPP_DOMAIN
             value: {{ .Values.app.name }}.{{ .Values.app.domain }}
+            {{ if .Values.auth.guests}}
+          - name: XMPP_GUEST_DOMAIN
+            value: guest.{{ .Values.app.name }}.{{ .Values.app.domain }}
+            {{end}}
           - name: XMPP_AUTH_DOMAIN
             value: auth.{{ .Values.app.name }}.{{ .Values.app.domain }}
           - name: XMPP_MUC_DOMAIN
@@ -45,6 +64,8 @@ spec:
             value: jvb
           - name: JVB_AUTH_PASSWORD
             value: {{ .Values.secrets.jvb.auth }}
+          - name: LOG_LEVEL
+            value: {{ .Values.logLevel }}
           - name: XMPP_INTERNAL_MUC_DOMAIN
             value: internal-muc.{{ .Values.app.name }}.{{ .Values.app.domain }}
           - name: TZ

@@ -1,8 +1,23 @@
 app:
   name: video
   domain: example.org
+  pullpolicy: IfNotPresent
 
-  # nothing to change below this line.
+auth:
+  enabled: false
+  guests: true
+  type: "internal"
+  admin:
+    user: admin
+    password: "jitsiAdmin"
+
+logLevel: "info"
+hideWelcomePage: true
+
+stun:
+  server:
+
+  # optional changes below this line.
 secrets:
   jvb:
     component: "jsdjhjk623sxbnedrtg42315tr"

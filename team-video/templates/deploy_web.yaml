@@ -20,16 +20,35 @@ spec:
       containers:
        - name: web
          image: jitsi/web
+         imagePullPolicy: {{ .Values.app.pullpolicy }}
          ports:
           - name: web
             containerPort: 80
+        {{if .Values.hideWelcomePage}}
+         lifecycle:
+           postStart:
+             exec:
+               command: ['/bin/bash', '-c', 'sleep 60; sed -i "s/enableWelcomePage: true,/enableWelcomePage: false,/g" /config/config.js']
+        {{end}}
          env:
+          {{ if .Values.auth.enabled}}
+          - name: ENABLE_AUTH
+            value: "1"
+            {{ if .Values.auth.guests}}
+          - name: ENABLE_GUESTS
+            value: "1"
+            {{end}}
+          {{end}}
           - name: JICOFO_AUTH_USER
             value: focus
           - name: XMPP_DOMAIN
             value: {{ .Values.app.name }}.{{ .Values.app.domain }}
           - name: XMPP_AUTH_DOMAIN
             value: auth.{{ .Values.app.name }}.{{ .Values.app.domain }}
+            {{ if .Values.auth.guests}}
+          - name: XMPP_GUEST_DOMAIN
+            value: guest.{{ .Values.app.name }}.{{ .Values.app.domain }}
+            {{end}}
           - name: XMPP_BOSH_URL_BASE
             value: http://{{ include "team-video.fullname" . }}-prosody:5280
           - name: XMPP_MUC_DOMAIN

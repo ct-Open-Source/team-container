@@ -8,9 +8,9 @@ auth:
   guests: true
   # internal auth
   type: internal
-  admin:
-    user: admin
-    password: "jitsiAdmin"
+  users:
+    - user: admin
+      password: "jitsiAdmin"
   # ldap auth - remove above "type: internal" auth to use it
   #type: ldap
   #ldapauthmethod: bind

@@ -29,7 +29,15 @@ spec:
          lifecycle:
            postStart:
              exec:
-               command: ["/bin/bash", "-c", "sleep 60; prosodyctl --config /config/prosody.cfg.lua register {{ .Values.auth.admin.user }} {{ .Values.app.name }}.{{ .Values.app.domain }} {{ .Values.auth.admin.password }}"]
+               command:
+                 - "/bin/bash"
+                 - "-c"
+                 - |-
+                   sleep 60
+                   {{- $app := .Values.app }}
+                   {{- range .Values.auth.users }}
+                   prosodyctl --config /config/prosody.cfg.lua register {{ .name }} {{ $app.name }}.{{ $app.domain }} {{ .password }}
+                   {{- end }}
          {{end}}
          image: jitsi/prosody
          imagePullPolicy: {{ .Values.app.pullpolicy }}

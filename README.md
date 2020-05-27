@@ -8,6 +8,7 @@ Team-container is a collection of containers that set up your own collaboration 
 * [Nextcloud](https://nextcloud.com)
 * [Rocket.Chat](https://rocket.chat)
 * [Jitsi Meet](https://jitsi.org)
+* [Plik](https://github.com/root-gg/plik)
 
 # Goal, Prerequisites and Architecture
 

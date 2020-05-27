@@ -1,0 +1,11 @@
+# Domain and subdomain for this service:
+app:
+  name: share
+  domain: example.org
+
+
+# Storage limit for files and database (no need to change):
+storage:
+  limits:
+    data: 128Gi
+

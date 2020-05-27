@@ -1,7 +1,7 @@
 # Domain and subdomain for this service:
 app:
   name: share
-  domain: schlaich.my-wan.de
+  domain: example.org
 
 
 # Storage limit for files and database (no need to change):

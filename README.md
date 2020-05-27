@@ -16,6 +16,7 @@ The goal is to provide a private collaboration server for a small to medium size
 * *Nextcloud* for sharing documents and calendars
 * *Rocket.Chat* for well organized browser based text chat. Apps for mobile platforms are available.
 * *Jitsi Meet* for browser based video conferencing. Apps for mobile platforms are available.
+* *Plik* is a scalable & friendly temporary file upload system (like wetransfer).
 
 All you need is 
 * A linux server, prefarably running Ubuntu 18.04 LTS or another Debian GNU/Linux derivate. There is a [compatibility list for some hosting providers](https://github.com/ct-Open-Source/team-container/wiki/Compatibility) in the wiki.

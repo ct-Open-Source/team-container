@@ -38,6 +38,54 @@ spec:
           - name: ENABLE_GUESTS
             value: "1"
             {{end}}
+            {{ if .Values.auth.ldapauthmethod}}
+          - name: LDAP_AUTH_METHOD
+            value: {{ .Values.auth.ldapauthmethod}}
+            {{end}}
+            {{ if .Values.auth.ldapurl }}
+          - name: LDAP_URL
+            value: {{ .Values.auth.ldapurl }}
+            {{end}}
+            {{ if .Values.auth.ldapusetls }}
+          - name: LDAP_USE_TLS
+            value: {{ .Values.auth.ldapusetls }}
+            {{end}}
+            {{ if .Values.auth.ldapstarttls }}
+          - name: LDAP_START_TLS
+            value: {{ .Values.auth.ldapstarttls }}
+            {{end}}
+            {{ if .Values.auth.ldaptlscacertfile }}
+          - name: LDAP_TLS_CACERT_FILE
+            value: {{ .Values.auth.ldaptlscacertfile }}
+            {{end}}
+            {{ if .Values.auth.ldaptlscacertdir }}
+          - name: LDAP_TLS_CACERT_DIR
+            value: {{ .Values.auth.ldaptlscacertdir }}
+            {{end}}
+            {{ if .Values.auth.ldapcheckpeer }}
+          - name: LDAP_TLS_CHECK_PEER
+            value: {{ .Values.auth.ldapcheckpeer }}
+            {{end}}
+            {{ if .Values.auth.ldapbase }}
+          - name: LDAP_BASE
+            value: {{ .Values.auth.ldapbase }}
+            {{end}}
+            {{ if .Values.auth.ldapbinddn }}
+          - name: LDAP_BINDDN
+            value: {{ .Values.auth.ldapbinddn }}
+            {{end}}
+            {{ if .Values.auth.ldapbindpw }}
+          - name: LDAP_BINDPW
+            value: {{ .Values.auth.ldapbindpw }}
+            {{end}}
+            {{ if .Values.auth.ldapfilter }}
+          - name: LDAP_FILTER
+            value: {{ .Values.auth.ldapfilter }}
+            {{end}}
+            {{ if .Values.auth.ldapversion }}
+          - name:  LDAP_VERSION
+            value: {{ .Values.auth.ldapversion }}
+            {{end}}
           {{end}}
           - name: JICOFO_AUTH_USER
             value: focus

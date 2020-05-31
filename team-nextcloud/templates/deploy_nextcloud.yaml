@@ -56,5 +56,7 @@ spec:
             value: {{ .Values.admin.name }}
           - name: NEXTCLOUD_ADMIN_PASSWORD
             value: {{ .Values.admin.password }}
-          - name: NC_overwriteprotocol
-            value: "https"
+          - name: APACHE_DISABLE_REWRITE_IP
+            value: "1"
+          - name: TRUSTED_PROXIES
+            value: "10.0.0.0/8"

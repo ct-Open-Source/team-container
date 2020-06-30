@@ -23,10 +23,15 @@ spec:
          imagePullPolicy: {{ .Values.app.pullpolicy }}
          env:
           {{ if .Values.auth.enabled}}
+          {{ if eq .Values.auth.type "ldap" }}
+          - name: ENABLE_LDAP_AUTH
+            value: "true"
+          {{else}}
           - name: ENABLE_AUTH
             value: "true"
           - name: AUTH_TYPE
             value: {{ .Values.auth.type }}
+          {{end}}
           {{end}}
           - name: XMPP_SERVER
             value: {{ include "team-video.fullname" . }}-prosody

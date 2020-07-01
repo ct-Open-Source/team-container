@@ -1,5 +1,26 @@
 ---
 apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: nextcloud-service-discovery
+spec:
+  redirectRegex:
+    permanent: true
+    regex: /.well-known/(card|cal)dav
+    replacement: /remote.php/dav/
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: nextcloud-headers
+spec:
+  headers:
+    stsSeconds: 15552000
+    stsIncludeSubdomains: true
+
+---
+apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
   name: ingressroute-{{ include "team-nextcloud.fullname" . }}
@@ -13,5 +34,8 @@ spec:
       services:
         - name: {{ include "team-nextcloud.fullname" . }}-nc
           port: 80
+      middlewares:
+        - name: nextcloud-service-discovery
+        - name: nextcloud-headers
   tls:
     certResolver: default

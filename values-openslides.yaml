@@ -1,0 +1,8 @@
+app:
+  name: club
+  domain: example.org
+  pullpolicy: IfNotPresent
+
+  # optional changes below this line.
+secrets:
+  python: "U@pP6%rQap@YT6yn4@N4" 

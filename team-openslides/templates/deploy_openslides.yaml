@@ -1,0 +1,28 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  namespace: default
+  name: {{ include "team-openslides.fullname" . }}-web
+  labels:
+    app: {{ include "team-openslides.fullname" . }}-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ include "team-openslides.fullname" . }}-web
+  template:
+    metadata:
+      labels:
+        app: {{ include "team-openslides.fullname" . }}-web
+      annotations:
+        timestamp: "{{ now | unixEpoch }}"
+    spec:
+      containers:
+       - name: openslides
+         image: jamct/openslides
+         imagePullPolicy: {{ .Values.app.pullpolicy }}
+         ports:
+         - containerPort: 8000
+         env:
+          - name: TZ
+            value: Europe/Paris

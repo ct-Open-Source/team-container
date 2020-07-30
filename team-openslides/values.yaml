@@ -3,6 +3,12 @@ app:
   domain: example.org
   pullpolicy: IfNotPresent
 
+# Storage limit for files
+storage:
+  limits:
+    data: 128Gi
+    database: 128Gi
+
   # optional changes below this line.
 secrets:
   python: "U@pP6%rQap@YT6yn4@N4" 

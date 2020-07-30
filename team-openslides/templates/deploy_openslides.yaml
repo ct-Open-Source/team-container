@@ -17,12 +17,21 @@ spec:
       annotations:
         timestamp: "{{ now | unixEpoch }}"
     spec:
+      volumes:
+       - name: os-data-vol
+         persistentVolumeClaim:
+           claimName: {{ include "team-openslides.fullname" . }}-data
       containers:
        - name: openslides
          image: jamct/openslides
          imagePullPolicy: {{ .Values.app.pullpolicy }}
+         volumeMounts:
+           - name: os-data-vol
+             mountPath: "/root/.local/share/openslides"
          ports:
          - containerPort: 8000
          env:
           - name: TZ
             value: Europe/Paris
+          - name: OPENSLIDES_SECRET
+            value: {{ .Values.secrets.python }}

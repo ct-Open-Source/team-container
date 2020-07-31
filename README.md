@@ -8,6 +8,7 @@ Team-container is a collection of containers that set up your own collaboration 
 * [Nextcloud](https://nextcloud.com)
 * [Rocket.Chat](https://rocket.chat)
 * [Jitsi Meet](https://jitsi.org)
+* [Openslides](https://openslides.com)
 
 # Goal, Prerequisites and Architecture
 
@@ -15,6 +16,7 @@ The goal is to provide a private collaboration server for a small to medium size
 * *Nextcloud* for sharing documents and calendars
 * *Rocket.Chat* for well organized browser based text chat. Apps for mobile platforms are available.
 * *Jitsi Meet* for browser based video conferencing. Apps for mobile platforms are available.
+* *Openslides* for management of assemblies for clubs and organizations
 
 All you need is 
 * A linux server, prefarably running Ubuntu 18.04 LTS or another Debian GNU/Linux derivate. There is a [compatibility list for some hosting providers](https://github.com/ct-Open-Source/team-container/wiki/Compatibility) in the wiki.
@@ -56,6 +58,12 @@ A lot of improvements are on our agenda. Have a look at the [Project board at Gi
 * after a few minutes your own Jitsi Meet video chat server will be up and running under https://video.example.org. 
 * please refer to the above mentioned project web sites for help on using the services.
 
+## Install Openslides (software for assemblies)
+* open "values-openslides.yaml". Enter server name (e.g. club) and domain name (e.g. example.org) 
+* install Openslides: `helm install openslides team-openslides --values values-openslides.yaml`
+* after a few minutes your own Openslides server will be up and running under https://club.example.org. 
+* please refer to the above mentioned project web sites for help on using the services.
+
 # To do / Known issues
 
-* not tested with IPv6
+* not working with IPv6 (problems with certificate generation)

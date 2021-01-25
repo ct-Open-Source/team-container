@@ -25,7 +25,7 @@ spec:
           - containerPort: 5347
          resources: {}
 #         restartPolicy: Always
-         {{ if eq .Values.auth.type "internal" }}
+         {{ if and .Values.auth.enabled (eq .Values.auth.type "internal") }}
          lifecycle:
            postStart:
              exec:

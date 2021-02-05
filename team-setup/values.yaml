@@ -5,3 +5,9 @@ acme:
 app:
   name: cloud
   domain: example.org
+
+# optional parameters (uncomment if needed)
+
+# a list of tls cipher suites
+# ciphers:
+#  - "TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256"

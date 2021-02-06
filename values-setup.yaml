@@ -5,3 +5,7 @@ acme:
 app:
   name: cloud
   domain: example.org
+
+ports:
+  web: 80
+  websecure: 443

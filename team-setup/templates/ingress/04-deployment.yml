@@ -30,8 +30,8 @@ spec:
           args:
             - --api.insecure
             - --accesslog
-            - --entrypoints.web.Address=:80
-            - --entrypoints.websecure.Address=:443
+            - --entrypoints.web.Address=:{{ .Values.ports.web }}
+            - --entrypoints.websecure.Address=:{{ .Values.ports.websecure }}
             - --providers.kubernetescrd
             - --certificatesresolvers.default.acme.tlschallenge
             - --certificatesresolvers.default.acme.email={{ .Values.acme.mail }}

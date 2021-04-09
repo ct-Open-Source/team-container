@@ -9,7 +9,7 @@ auth:
   # internal auth
   type: internal
   users:
-    - user: admin
+    - name: admin
       password: "jitsiAdmin"
   # ldap auth - remove above "type: internal" auth to use it
   #type: ldap

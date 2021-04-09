@@ -72,3 +72,5 @@ spec:
             value: internal-muc.{{ .Values.app.name }}.{{ .Values.app.domain }}
           - name: TZ
             value: Europe/Paris
+          - name: PUBLIC_URL
+            value: "https://{{ .Values.app.name }}.{{ .Values.app.domain }}"

@@ -7,9 +7,9 @@ auth:
   enabled: false
   guests: true
   type: "internal"
-  admin:
-    user: admin
-    password: "jitsiAdmin"
+  users:
+    - name: admin
+      password: "jitsiAdmin"
 
 logLevel: "info"
 hideWelcomePage: true

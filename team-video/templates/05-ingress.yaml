@@ -1,5 +1,15 @@
 ---
 apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: video-headers
+spec:
+  headers:
+    stsSeconds: 15552000
+    stsIncludeSubdomains: true
+
+---
+apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
   name: {{ include "team-video.fullname" . }}-ingressroute
@@ -14,5 +24,7 @@ spec:
       services:
         - name: {{ include "team-video.fullname" . }}-web
           port: 80
+      middlewares:
+        - name: video-headers
   tls:
     certResolver: default

@@ -72,3 +72,5 @@ spec:
             value: internal-muc.{{ .Values.app.name }}.{{ .Values.app.domain }}
           - name: TZ
             value: Europe/Paris
+          - name: ENABLE_LOBBY
+            value: "{{ .Values.enableLobby | ternary 1 0 }}"

@@ -13,6 +13,7 @@ auth:
 
 logLevel: "info"
 hideWelcomePage: true
+enableLobby: true
 
 stun:
   server:

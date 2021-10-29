@@ -25,6 +25,9 @@ auth:
   #ldapbindpw: VerySecretPassword
   #ldapfilter: (&(&(|(objectclass=person)))(|(samaccountname=%uid)(|(mailPrimaryAddress=%uid)(mail=%uid))))
   #ldapversion: 3 # can break helm upgrade
+  # jicofo needs this, if (and only if) LDAP auth is used
+  #ldapjicofoauth: XMPP
+
 
 logLevel: "info"
 hideWelcomePage: true

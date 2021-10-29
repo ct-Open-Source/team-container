@@ -26,6 +26,10 @@ spec:
           {{ if eq .Values.auth.type "ldap" }}
           - name: ENABLE_LDAP_AUTH
             value: "true"
+          - name: ENABLE_AUTH
+            value: "true"
+          - name: AUTH_TYPE
+            value: {{ .Values.auth.ldapjicofoauth }}
           {{else}}
           - name: ENABLE_AUTH
             value: "true"
